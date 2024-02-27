@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>金額異動回應</title>
+</head>
+<body>
+<div id="title1">金額異動回應</div>
+<label>{{.status}}</label> <br>
+<label>{{.message}}</label> <br>
+<label>{{.total_amount}}</label> <br>
+<form id="form1" method="post" action="http://127.0.0.1:8080/users-auth/token-change">
+    <input type="hidden" name="code" value={{.code}}><br>
+    <input type="submit" value="回上一頁">
+</form>
+</body>
+</html>

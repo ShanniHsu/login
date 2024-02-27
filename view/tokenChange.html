@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>個人資訊頁面</title>
+</head>
+<body>
+<div id="title1">個人資訊頁面</div>
+<form id="form1" method="post" action="http://127.0.0.1:8080/users-auth/user-info">
+    <input type="hidden" name="code" value={{.code}}><br>
+    <input type="hidden" name="token" value={{.token}}><br>
+    <input type="submit" value="取個人資訊"><br>
+</form>
+
+<form id="form2" method="post" action="http://127.0.0.1:8080/users-auth/deposit-amount">
+    <input type="hidden" name="code" value={{.code}}><br>
+    <input type="hidden" name="token" value={{.token}}><br>
+    存入金額: <input required type="text" name="deposit_amount"><br>
+    <input type="submit" value="存款"><br>
+</form>
+
+<form id="form3" method="post" action="http://127.0.0.1:8080/users-auth/withdraw-amount">
+    <input type="hidden" name="code" value={{.code}}><br>
+    <input type="hidden" name="token" value={{.token}}><br>
+    提領金額: <input required type="text" name="withdraw_amount"><br>
+    <input type="submit" value="提款"><br>
+</form>
+</body>
+</html>

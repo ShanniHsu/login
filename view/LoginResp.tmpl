@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登入回應</title>
+</head>
+<body>
+<div id="title1">登入回應</div>
+<div>
+ <label>{{.status}}</label> <br>
+ <label>{{.message}}</label> <br>
+ <form id="form2" method="post" action="http://127.0.0.1:8080/users-auth/build-temp-token">
+    <input type = "submit" value = "建立臨時Token"><br>
+ </form>
+
+  <form id="form2" method="post" action="http://127.0.0.1:8080/users-auth/logout">
+    <input type = "submit" value = "登出"><br>
+  </form>
+</div>
+</body>
+</html>
