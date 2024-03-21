@@ -1,18 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>登入頁面</title>
+    <meta charset="UTF-8">
+    <title>登入頁面</title>
+    <style>
+        #counter {
+            width: 280px;
+            height: 300px;
+            background: aqua; /*背景色*/
+            margin: 100px auto; /*水平居中*/
+            padding: 20px; /*內部距離*/
+            border-radius: 4px; /*邊框圓角*/
+        }
+
+        #form1 {
+            padding: 20px;
+        }
+
+        .MIDtbJ {
+            background: #fff6f7;
+            border-color: #ff424f;
+        }
+
+        .q18aRr {
+            border: 1px solid rgba(0, 0, 0, .14); /*邊界 實線的 邊框顏色 .14是透明度*/
+            border-radius: 2px; /*邊框圓角*/
+            /*box-shadow: inset 0 2px 0 rgba(0,0,0,.02);*/
+            box-sizing: border-box; /*寬高設定作用在邊框外緣的範圍內 沒設定的話 預設會是content-box(寬高設定作用在內容範圍)*/
+            height: 2.5rem;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .marginLeft {
+            margin-left: 20px;
+        }
+
+        .marginBottom {
+            margin-bottom: 20px;
+        }
+
+        .Se62kq {
+            background: #fff6f7;
+        }
+
+        .Btdmxp {
+            border: 0;
+            filter: none;
+            flex: 1;
+            flex-shrink: 0;
+            outline: none;
+            padding: 0.75rem;
+        }
+
+        .hqfBzL:disabled {
+            cursor: not-allowed; /*滑鼠標會出現禁止按的圖*/
+            opacity: .7; /*1代表完全不透明 0-1元素半透明 0元素完全透明*/
+        }
+
+        .NBaRN4 {
+            width: 100%;
+            height: 2.5rem;
+        }
+
+        /*.inp {*/
+        /*  margin: 20px 5px; !*上下距離20 左右5*!*/
+        /*}*/
+
+
+    </style>
 </head>
 <body>
-<div id="title1">登入頁面</div>
-<form  id="form1" method="post" action="http://127.0.0.1:8080/users-auth/login">
-  帳號: <input required type = "text" name = "account"><br>
-  密碼: <input required type = "password" name = "password"><br>
-  <input type = "submit" value = "登入"><br>
-  <input type = "button" value = "註冊" onclick="location.href='http://127.0.0.1:8080/register'"><br>
-  <input type="button" value="忘記密碼" onclick="location.href='http://127.0.0.1:8080/forget-password'">
-</form>
+<!--<div id="title1">登入頁面</div>-->
+<div id="counter">
+    <div class="marginLeft">登入</div>
+    <form id="form1" name="form1" method="post" action="http://127.0.0.1:8080/users-auth/login">
+        <div class="marginBottom MIDtbJ q18aRr">
+            <input required class="Se62kq Btdmxp" type="text" placeholder="請輸入帳號" name="account" value="" onkeyup="yz()"><br>
+        </div>
+        <div class="marginBottom MIDtbJ q18aRr">
+            <input required class="Se62kq Btdmxp" type="password" placeholder="請輸入密碼" name="password" value="" onkeyup="yz()"><br>
+        </div>
+        <button class=" marginBottom hqfBzL NBaRN4" disabled id="loginButton">登入</button>
+        <!--        <input class="marginLeft marginBottom" type="submit" value="登入"><br>-->
+        <input class="marginBottom" type="button" value="註冊" onclick="location.href='http://127.0.0.1:8080/register'"><br>
+        <input class="marginBottom" type="button" value="忘記密碼"
+               onclick="location.href='http://127.0.0.1:8080/forget-password'">
+    </form>
+</div>
+
+<script>
+
+    const loginButton = document.getElementById("loginButton");
+    function yz () {
+        if (document.form1.account.value != "" && document.form1.password.value != "") {
+            loginButton.disabled = false;
+        }else {
+            loginButton.disabled = true;
+        }
+    }
+    // let getButtonAble = () => {
+    //     const form1 = document.forms['form1']
+    //     const account = form1.elements.account.value;
+    //     const password = form1.elements.password.value;
+    //     alert("account: " + account)
+    //     alert("password: " + password)
+    //     //帳號密碼不為空才可按
+    //     if (account.value != "" && password.value != "") {
+    //         return false
+    //     } else {
+    //         return true
+    //     }
+    // }
+</script>
 
 </body>
 </html>
