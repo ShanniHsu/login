@@ -6,7 +6,7 @@
     <style>
         #counter {
             width: 280px;
-            height: 300px;
+            height: 280px;
             background: aqua; /*背景色*/
             margin: 100px auto; /*水平居中*/
             padding: 20px; /*內部距離*/
@@ -53,9 +53,18 @@
             padding: 0.75rem;
         }
 
-        .hqfBzL:disabled {
-            cursor: not-allowed; /*滑鼠標會出現禁止按的圖*/
-            opacity: .7; /*1代表完全不透明 0-1元素半透明 0元素完全透明*/
+        /*.hqfBzL:disabled {*/
+        /*    cursor: not-allowed; !*滑鼠標會出現禁止按的圖*!*/
+        /*    opacity: .7; !*1代表完全不透明 0-1元素半透明 0元素完全透明*!*/
+        /*}*/
+
+        .DYKctS {
+            align-items: center;
+            display: flex;
+        }
+
+        .CEiA6B, .DYKctS {
+            justify-content: center;
         }
 
         .NBaRN4 {
@@ -83,7 +92,13 @@
 
         .vGSaeh {
             margin: 10px 0;
+            display: flex;
             justify-content: space-between; /*均匀排列每个元素 首个元素放置於起點，末尾元素放置於终點*/
+        }
+
+        button[disabled] {
+            cursor: not-allowed; /*滑鼠標會出現禁止按的圖*/
+            opacity: .7; /*1代表完全不透明 0-1元素半透明 0元素完全透明*/
         }
 
         a {
@@ -94,11 +109,6 @@
         .hZ5QQO, .hZ5QQO:active, .hZ5QQO:hover, .hZ5QQO:visited {
             color: #05a;
         }
-
-        /*.inp {*/
-        /*  margin: 20px 5px; !*上下距離20 左右5*!*/
-        /*}*/
-
 
     </style>
 </head>
@@ -123,7 +133,7 @@
         </div>
 
         <!--        <path stroke="none" fill="#000" fill-opacity=".54" fill-rule="evenodd" d="" clip-rule="evenodd"></path>-->
-        <button class="hqfBzL NBaRN4" disabled id="loginButton" onclick="login()">登入</button>
+        <button class="NBaRN4 DYKctS CEiA6B" disabled id="loginButton" onclick="login()">登入</button>
         <div class="vGSaeh">
             <a class="hZ5QQO" href="http://127.0.0.1:8080/register">註冊</a>
             <a class="hZ5QQO" href="http://127.0.0.1:8080/forget-password">忘記密碼</a>
