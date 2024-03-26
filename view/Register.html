@@ -1,23 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>註冊頁面</title>
+    <meta charset="UTF-8">
+    <title>註冊頁面</title>
+    <style>
+        #counter {
+            width: 280px;
+            height: 400px;
+            background: aqua; /*背景色*/
+            margin: 100px auto; /*水平居中*/
+            padding: 20px; /*內部距離*/
+            border-radius: 4px; /*邊框圓角*/
+        }
+
+        .marginLeft {
+            margin-left: 20px;
+            font-family: "Comic Sans MS", cursive, sans-serif;
+        }
+
+        #form1 {
+            padding: 20px;
+        }
+
+        .vGSaeh {
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between; /*均匀排列每个元素 首个元素放置於起點，末尾元素放置於终點*/
+        }
+
+        .displayFlex {
+            display: flex;
+            align-items: center;
+            font-family: "Comic Sans MS", cursive, sans-serif;
+        }
+
+        .radioSize {
+            width: 80%;
+        }
+
+        .q18aRr {
+            border: 1px solid rgba(0, 0, 0, .14); /*邊界 實線的 邊框顏色 .14是透明度*/
+            border-radius: 2px; /*邊框圓角*/
+            /*box-shadow: inset 0 2px 0 rgba(0,0,0,.02);*/
+            box-sizing: border-box; /*寬高設定作用在邊框外緣的範圍內 沒設定的話 預設會是content-box(寬高設定作用在內容範圍)*/
+            height: 2.5rem;
+            overflow: hidden;
+            width: 80%;
+        }
+
+        .MIDtbJ {
+            background: #fff6f7;
+            border-color: #ff424f;
+        }
+
+
+        .Btdmxp {
+            border: 0;
+            filter: none;
+            flex: 1;
+            flex-shrink: 0;
+            outline: none;
+            padding: 0.75rem;
+        }
+
+        .Se62kq {
+            background: #fff6f7;
+        }
+    </style>
 </head>
 <body>
-<div id="title1">註冊頁面</div>
 
-<form id="form1" method="post" action="http://127.0.0.1:8080/register" >
-  姓氏: <input required type = "text" name = "last_name"><br>
-  姓名: <input required type = "text" name = "first_name"><br>
-  暱稱: <input type = "text" name = "nick_name"><br>
-  帳號: <input required type = "text" name = "account"><br>
-  密碼: <input required type = "password" name = "password"><br>
-  電子信箱: <input required type = "text" name = "email"><br>
-  性別: <input required type="radio" name="gender" value="0">女
-  <input type="radio" name="gender" value="1">男<br>
-  <input type="submit" value="送出" >
-  <input type = "button" value = "取消" onclick="location.href='http://127.0.0.1:8080/login'">
-</form>
+<div id="counter">
+    <div class="marginLeft">註冊</div>
+    <form id="form1" method="post" action="http://127.0.0.1:8080/register">
+        <div class="vGSaeh">
+            <div class="displayFlex">姓氏</div>
+            <div class="q18aRr MIDtbJ">
+                <input class="Btdmxp Se62kq" required type="text" placeholder="請輸入姓氏"
+                       name="last_name">
+            </div>
+        </div>
+
+        <div class="vGSaeh">
+            <div class="displayFlex">姓名</div>
+            <div class="q18aRr MIDtbJ"><input class="Btdmxp Se62kq" required type="text" placeholder="請輸入姓名"
+                                              name="first_name"></div>
+        </div>
+
+        <div class="vGSaeh">
+            <div class="displayFlex">暱稱</div>
+            <div class="q18aRr MIDtbJ"><input class="Btdmxp Se62kq" required type="text" placeholder="請輸入暱稱"
+                                              name="nick_name"></div>
+        </div>
+
+        <div class="vGSaeh">
+            <div class="displayFlex">帳號</div>
+            <div class="q18aRr MIDtbJ"><input class="Btdmxp Se62kq" required type="text" placeholder="請輸入帳號"
+                                              name="account"></div>
+        </div>
+
+        <div class="vGSaeh">
+            <div class="displayFlex">密碼</div>
+            <div class="q18aRr MIDtbJ"><input class="Btdmxp Se62kq" required type="password" placeholder="請輸入密碼"
+                                              name="password"></div>
+        </div>
+
+        <div class="vGSaeh">
+            <div class="displayFlex">信箱</div>
+            <div class="q18aRr MIDtbJ"><input class="Btdmxp Se62kq" required type="text" placeholder="請輸入電子信箱"
+                                              name="email"></div>
+        </div>
+
+        <div class="vGSaeh">
+            <div class="displayFlex">性別</div>
+            <div class="displayFlex radioSize">
+                <input required type="radio" name="gender" value="0">女
+                <input type="radio" name="gender" value="1">男
+            </div>
+        </div>
+        <input type="submit" value="送出">
+        <input type="button" value="取消" onclick="location.href='http://127.0.0.1:8080/login'">
+    </form>
+</div>
 </body>
 </html>
