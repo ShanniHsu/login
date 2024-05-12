@@ -4,8 +4,8 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"login/model"
-	"login/repository/USER"
-	"login/service/ApplicationLogic"
+	"login/pkg/rule"
+	"login/router/repository/USER"
 	"net/http"
 	"time"
 )
@@ -49,7 +49,7 @@ func Register(ctx *gin.Context) {
 	data.FirstName = firstName
 	data.NickName = nickName
 	data.Account = account
-	data.Password = ApplicationLogic.HashPassword(password)
+	data.Password = rule.HashPassword(password)
 	data.Email = email
 	data.Gender = gender
 	data.CreatedAt = time.Now()

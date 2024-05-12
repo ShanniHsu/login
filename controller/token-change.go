@@ -8,7 +8,7 @@ import (
 	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
 	"login/redisC"
-	"login/repository/USER"
+	"login/router/repository/USER"
 	"net/http"
 )
 

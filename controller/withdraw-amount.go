@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"login/repository/USER"
+	"login/router/repository/USER"
 	"net/http"
 	"strconv"
 )

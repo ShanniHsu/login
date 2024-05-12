@@ -3,10 +3,10 @@ package controller
 import (
 	"context"
 	"github.com/gin-gonic/gin"
-	"login/middleware"
+	"login/pkg/jwt"
 	"login/redisC"
-	"login/repository/USER"
-	"login/service/ApplicationLogic"
+	"login/router/middleware"
+	"login/router/repository/USER"
 	"net/http"
 )
 
@@ -21,7 +21,7 @@ func BuildTmpToken(ctx *gin.Context) {
 		})
 	}
 
-	tempToken, err := ApplicationLogic.GenerateToken()
+	tempToken, err := jwt.GenerateToken()
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"status":  http.StatusBadRequest,

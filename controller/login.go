@@ -4,9 +4,10 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	"login/middleware"
-	"login/repository/USER"
-	"login/service/ApplicationLogic"
+	"login/pkg/jwt"
+	"login/pkg/rule"
+	"login/router/middleware"
+	"login/router/repository/USER"
 	"net/http"
 )
 
@@ -33,7 +34,7 @@ func Login(ctx *gin.Context) {
 	}
 
 	//檢查密碼
-	if !ApplicationLogic.CheckPasswordHash(password, user.Password) {
+	if !rule.CheckPasswordHash(password, user.Password) {
 		err = errors.New("The password isn't correct!")
 
 		//紀錄Log
@@ -89,7 +90,7 @@ func Login(ctx *gin.Context) {
 	middleware.ClearSession(ctx)
 	middleware.SaveSession(ctx, user.ID)
 
-	token, err := ApplicationLogic.GenerateToken()
+	token, err := jwt.GenerateToken()
 	if err != nil {
 		//ctx.JSON(http.StatusBadRequest, gin.H{
 		//	"status":  http.StatusBadRequest,

@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	"login/repository/USER"
-	"login/service/ApplicationLogic"
+	"login/pkg/jwt"
+	"login/pkg/mail"
+	"login/router/repository/USER"
 	"net/http"
 	"strings"
 )
@@ -28,7 +29,7 @@ func ForgetPassword(ctx *gin.Context) {
 	}
 
 	var token string
-	token, err = ApplicationLogic.GenerateToken()
+	token, err = jwt.GenerateToken()
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"status":  http.StatusBadRequest,
@@ -57,7 +58,7 @@ func ForgetPassword(ctx *gin.Context) {
 	body := "請點擊此連結: " + url + " ,並重新設置密碼。"
 
 	//寄信
-	err = ApplicationLogic.SendMail(subject, email, body)
+	err = mail.SendMail(subject, email, body)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"status":  http.StatusBadRequest,

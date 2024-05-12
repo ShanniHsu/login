@@ -2,7 +2,7 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"login/repository/USER"
+	"login/router/repository/USER"
 	"net/http"
 )
 

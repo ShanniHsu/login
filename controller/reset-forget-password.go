@@ -4,8 +4,8 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	"login/repository/USER"
-	"login/service/ApplicationLogic"
+	"login/pkg/rule"
+	"login/router/repository/USER"
 	"net/http"
 )
 
@@ -34,7 +34,7 @@ func ResetForgetPassword(ctx *gin.Context) {
 	}
 
 	password := ctx.PostForm("password")
-	hashPassword := ApplicationLogic.HashPassword(password)
+	hashPassword := rule.HashPassword(password)
 
 	newData := map[string]interface{}{
 		"password": hashPassword,

@@ -2,8 +2,8 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"login/middleware"
-	"login/repository/USER"
+	"login/router/middleware"
+	"login/router/repository/USER"
 	"net/http"
 )
 
