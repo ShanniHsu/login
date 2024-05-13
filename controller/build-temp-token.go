@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/gin-gonic/gin"
 	"login/pkg/jwt"
-	"login/redisC"
+	"login/pkg/redis"
 	"login/router/middleware"
 	"login/router/repository/USER"
 	"net/http"
@@ -31,7 +31,7 @@ func BuildTempToken(ctx *gin.Context) {
 		return
 	}
 
-	err = redisC.NewClient().Set(Ctx, "tempToken", tempToken, 0).Err()
+	err = redis.NewClient().Set(Ctx, "tempToken", tempToken, 0).Err()
 	if err != nil {
 		ctx.HTML(http.StatusBadRequest, "RespTempToken.tmpl", gin.H{
 			"status":  http.StatusBadRequest,

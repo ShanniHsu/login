@@ -1,4 +1,4 @@
-package redisC
+package redis
 
 import (
 	"context"

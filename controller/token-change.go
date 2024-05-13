@@ -5,9 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/go-redis/redis/v8"
+	r1 "github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
-	"login/redisC"
+	"login/pkg/redis"
 	"login/router/repository/USER"
 	"net/http"
 )
@@ -15,10 +15,10 @@ import (
 func TokenChange(ctx *gin.Context) {
 	code := ctx.PostForm("code")
 	Ctx := context.TODO()
-	value, err := redisC.NewClient().Get(Ctx, "tempToken").Result()
+	value, err := redis.NewClient().Get(Ctx, "tempToken").Result()
 	fmt.Println("tempToken's value:", value)
 	if err != nil {
-		if err == redis.Nil {
+		if err == r1.Nil {
 			err = errors.New("The url is expired!")
 		}
 		ctx.HTML(http.StatusBadRequest, "RespTokenChange.tmpl", gin.H{

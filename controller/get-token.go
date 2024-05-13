@@ -5,9 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/go-redis/redis/v8"
+	r1 "github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
-	"login/redisC"
+	"login/pkg/redis"
 	"login/router/repository/USER"
 	"net/http"
 )
@@ -15,10 +15,10 @@ import (
 func GetToken(ctx *gin.Context) {
 	code := ctx.Query("code")
 	Ctx := context.TODO()
-	value, err := redisC.NewClient().Get(Ctx, "tempToken").Result()
+	value, err := redis.NewClient().Get(Ctx, "tempToken").Result()
 
 	if err != nil {
-		if err == redis.Nil {
+		if err == r1.Nil {
 			err = errors.New("The radis is error!")
 		}
 		ctx.JSON(http.StatusBadRequest, gin.H{

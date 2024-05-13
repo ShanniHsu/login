@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/gin-gonic/gin"
 	"login/pkg/jwt"
-	"login/redisC"
+	"login/pkg/redis"
 	"login/router/middleware"
 	"login/router/repository/USER"
 	"net/http"
@@ -30,7 +30,7 @@ func BuildTmpToken(ctx *gin.Context) {
 		return
 	}
 
-	err = redisC.NewClient().Set(Ctx, "tempToken", tempToken, 0).Err()
+	err = redis.NewClient().Set(Ctx, "tempToken", tempToken, 0).Err()
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"status":  http.StatusBadRequest,
