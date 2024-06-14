@@ -1,4 +1,4 @@
-package redis
+package connect
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-func NewClient() (client *redis.Client) {
+func Client() (client *redis.Client, err error) {
 	ctx := context.TODO()
 	client = redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",

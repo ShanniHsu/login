@@ -12,7 +12,7 @@ func main() {
 	r.LoadHTMLGlob("view/*")
 	v1 := r.Group("")
 	//Mysql Connect
-	connect.MySql()
+	connect.GetDBConn()
 	//Gin
 	router.Router(v1)
 

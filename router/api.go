@@ -1,19 +1,28 @@
 package router
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
-	"login/controller"
+	"login/controll"
 	"login/handler"
+	"login/router/controller"
 	"login/router/middleware"
+	"login/router/repository"
+	"login/router/service"
 	"net/http"
 )
 
 func Router(r *gin.RouterGroup) {
-	r.POST("/register", controller.Register)
-	r.POST("/forget-password", controller.ForgetPassword)
+	repo := repository.NewRepository()          //連線初始化 資料庫相關
+	userService := service.NewUserService(repo) //User相關服務
+	apiController := controller.NewApiController(userService)
+	fmt.Println(repo)
+
+	r.POST("/register", apiController.Register)              //註冊
+	r.POST("/forget-password", apiController.ForgetPassword) //寄送忘記密碼
 
 	//r.GET("/forget-password", controller.GetForgetPassword)
-	r.POST("/reset-forget-password", controller.ResetForgetPassword)
+	r.POST("/reset-forget-password", apiController.ResetForgetPassword) //重設密碼
 
 	//web
 	r.GET("/reset-forget-password", handler.GetResetForgetPassword)
@@ -24,23 +33,23 @@ func Router(r *gin.RouterGroup) {
 
 	user := r.Group("/users-auth", middleware.SetSession())
 	//user.GET("/test", test)
-	user.POST("/login", controller.Login)
+	user.POST("/login", apiController.Login) //登入
 
 	user.Use(middleware.AuthSession())
 	{
-		user.POST("/build-temp-token", controller.BuildTempToken) //建立臨時Token
-		user.POST("/token-change", controller.TokenChange)        //取真Token
-		user.POST("/user-info", controller.GetUserInfo)           //個人資訊
-		user.POST("/deposit-amount", controller.DepositAmount)    //存款
-		user.POST("/withdraw-amount", controller.WithdrawAmount)  //提款
-		user.POST("/logout", controller.Logout)                   //登出
+		user.POST("/build-temp-token", apiController.BuildTempToken) //建立臨時Token
+		user.POST("/token-change", apiController.TokenChange)        //取真Token
+		user.POST("/user-info", apiController.GetUserInfo)           //個人資訊
+		user.POST("/deposit-amount", apiController.DepositAmount)    //存款
+		//user.POST("/withdraw-amount", controll.WithdrawAmount)  //提款
+		//user.POST("/logout", controll.Logout)                   //登出
 
 		//純Postman使用
-		user.POST("/build-tmp-token", controller.BuildTmpToken)    //建立臨時Token
-		user.GET("/get-token", controller.GetToken)                //取永久Token
-		user.POST("/get-user-info", controller.UserInfo)           //取個人資訊
-		user.POST("/deposit-amount1", controller.DepositAmount1)   //存款
-		user.POST("/withdraw-amount1", controller.WithdrawAmount1) //提款
+		user.POST("/build-tmp-token", controll.BuildTmpToken)    //建立臨時Token
+		user.GET("/get-token", controll.GetToken)                //取永久Token
+		user.POST("/get-user-info", controll.UserInfo)           //取個人資訊
+		user.POST("/deposit-amount1", controll.DepositAmount1)   //存款
+		user.POST("/withdraw-amount1", controll.WithdrawAmount1) //提款
 
 		//web
 		user.GET("/token-change", handler.GetTempToken)
