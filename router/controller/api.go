@@ -14,6 +14,8 @@ type ApiController interface {
 	TokenChange(ctx *gin.Context)
 	GetUserInfo(ctx *gin.Context)
 	DepositAmount(ctx *gin.Context)
+	WithdrawAmount(ctx *gin.Context)
+	Logout(ctx *gin.Context)
 }
 
 type apiController struct {

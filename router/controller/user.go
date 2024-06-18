@@ -10,6 +10,7 @@ import (
 	login_by_account "login/content/login-by-account"
 	reset_forget_password "login/content/reset-forget-password"
 	token_change "login/content/token-change"
+	withdraw_amount "login/content/withdraw-amount"
 	"net/http"
 )
 
@@ -374,7 +375,70 @@ func (c apiController) DepositAmount(ctx *gin.Context) {
 		"status":       http.StatusOK,
 		"message":      "Deposit Amount Successfully!",
 		"code":         res.TempToken,
-		"total_amount": "總金額:" + res.TotalAmount,
+		"total_amount": res.TotalAmount,
+	})
+	return
+}
+
+func (c apiController) WithdrawAmount(ctx *gin.Context) {
+	var err error
+	req := new(withdraw_amount.Request)
+	token := ctx.PostForm("token")
+	withdrawAmount := ctx.PostForm("withdraw_amount")
+
+	if token == "" {
+		err = errors.New("The token is required!")
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	if withdrawAmount == "" {
+		err = errors.New("The deposit amount is required!")
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	req.Token = token
+	req.WithdrawAmount = withdrawAmount
+
+	res, err := c.userService.WithdrawAmount(req)
+	if err != nil {
+		ctx.HTML(http.StatusBadRequest, "RespAmount.html", gin.H{
+			"status":  http.StatusBadRequest,
+			"message": err.Error(),
+			"code":    res.TempToken,
+		})
+		return
+	}
+
+	ctx.HTML(http.StatusOK, "RespAmount.html", gin.H{
+		"status":       http.StatusOK,
+		"message":      "Deposit Amount Successfully!",
+		"code":         res.TempToken,
+		"total_amount": res.TotalAmount,
+	})
+	return
+}
+
+func (c apiController) Logout(ctx *gin.Context) {
+	err := c.userService.Logout(ctx)
+	if err != nil {
+		ctx.HTML(http.StatusBadRequest, "ReturnLogin.tmpl", gin.H{
+			"status":  http.StatusBadRequest,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	ctx.HTML(http.StatusOK, "ReturnLogin.tmpl", gin.H{
+		"status":  http.StatusOK,
+		"message": "User Sign out successfully!",
 	})
 	return
 }

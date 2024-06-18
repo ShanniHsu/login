@@ -13,6 +13,7 @@ import (
 	login_by_account "login/content/login-by-account"
 	reset_forget_password "login/content/reset-forget-password"
 	token_change "login/content/token-change"
+	withdraw_amount "login/content/withdraw-amount"
 	"login/model"
 	"login/pkg/jwt"
 	"login/pkg/mail"
@@ -34,8 +35,8 @@ type UserService interface {
 	BuildTempToken(ctx *gin.Context) (url string, err error)
 	TokenChange(req *token_change.Request) (token string, err error)
 	GetUserInfo(req *get_user_info.Request) (res get_user_info.Response, err error)
-	DepositAmount(req *deposit_amount.Request) (res *deposit_amount.Response, err error)
-	WithdrawAmount(ctx *gin.Context) (err error)
+	DepositAmount(req *deposit_amount.Request) (res deposit_amount.Response, err error)
+	WithdrawAmount(req *withdraw_amount.Request) (res withdraw_amount.Response, err error)
 	Logout(ctx *gin.Context) (err error)
 }
 
@@ -466,7 +467,7 @@ func (s userService) GetUserInfo(req *get_user_info.Request) (res get_user_info.
 	return
 }
 
-func (s userService) DepositAmount(req *deposit_amount.Request) (res *deposit_amount.Response, err error) {
+func (s userService) DepositAmount(req *deposit_amount.Request) (res deposit_amount.Response, err error) {
 	//token := ctx.PostForm("token")
 	//depositAmount := ctx.PostForm("deposit_amount")
 
@@ -490,7 +491,6 @@ func (s userService) DepositAmount(req *deposit_amount.Request) (res *deposit_am
 	newData := map[string]interface{}{
 		"amount": amount,
 	}
-	fmt.Println("amount: ", amount)
 
 	err = s.repo.UserRepository.Update(user, newData)
 	if err != nil {
@@ -504,64 +504,44 @@ func (s userService) DepositAmount(req *deposit_amount.Request) (res *deposit_am
 	return
 }
 
-func (s userService) WithdrawAmount(ctx *gin.Context) (err error) {
-	token := ctx.PostForm("token")
-	withdrawAmount := ctx.PostForm("withdraw_amount")
+func (s userService) WithdrawAmount(req *withdraw_amount.Request) (res withdraw_amount.Response, err error) {
+	//token := ctx.PostForm("token")
+	//withdrawAmount := ctx.PostForm("withdraw_amount")
 
-	user, err := s.repo.UserRepository.GetByToken(token)
+	user, err := s.repo.UserRepository.GetByToken(req.Token)
 	if err != nil {
-		ctx.HTML(http.StatusBadRequest, "RespAmount.html", gin.H{
-			"status":  http.StatusBadRequest,
-			"message": err.Error(),
-			"code":    user.TempToken,
-		})
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			err = errors.New("The token isn't existed!")
+			return
+		}
+		err = errors.New("Get failed!")
 		return
 	}
 
-	amount, err := strconv.ParseInt(withdrawAmount, 10, 64)
+	amount, err := strconv.ParseInt(req.WithdrawAmount, 10, 64)
 	if err != nil {
 		err = errors.New("Please enter number!")
-		ctx.HTML(http.StatusBadRequest, "RespAmount.html", gin.H{
-			"status":  http.StatusBadRequest,
-			"message": err.Error(),
-			"code":    user.TempToken,
-		})
 		return
 	}
 
 	amount = user.Amount - amount
 	if amount < 0 {
 		err = errors.New("Balance Amount isn't enough!")
-		ctx.HTML(http.StatusBadRequest, "RespAmount.html", gin.H{
-			"status":  http.StatusBadRequest,
-			"message": err.Error(),
-			"code":    user.TempToken,
-		})
 		return
 	}
 	newData := map[string]interface{}{
 		"amount": amount,
 	}
-	fmt.Println("amount: ", amount)
 
 	err = s.repo.UserRepository.Update(user, newData)
 	if err != nil {
-		ctx.HTML(http.StatusBadRequest, "RespAmount.html", gin.H{
-			"status":  http.StatusBadRequest,
-			"message": err.Error(),
-			"code":    user.TempToken,
-		})
+		errors.New("Update failed!")
 		return
 	}
 
 	totalAmount := strconv.FormatInt(amount, 10)
-
-	ctx.HTML(http.StatusOK, "RespAmount.html", gin.H{
-		"status":       http.StatusOK,
-		"message":      "Deposit Amount Successfully!",
-		"code":         user.TempToken,
-		"total_amount": "總金額:" + totalAmount,
-	})
+	res.TempToken = user.TempToken
+	res.TotalAmount = totalAmount
 	return
 }
 
@@ -569,6 +549,10 @@ func (s userService) Logout(ctx *gin.Context) (err error) {
 	userID := middleware.GetSession(ctx)
 	user, err := s.repo.UserRepository.GetByID(userID)
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			errors.New("The user isn't existed!")
+			return
+		}
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"status":  http.StatusBadRequest,
 			"message": err.Error(),
@@ -581,19 +565,10 @@ func (s userService) Logout(ctx *gin.Context) (err error) {
 
 	err = s.repo.UserRepository.Update(user, newData)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"status":  http.StatusBadRequest,
-			"message": err.Error(),
-		})
+		errors.New("Update failed!")
 		return
 	}
 	middleware.ClearSession(ctx)
-
-	ctx.HTML(http.StatusOK, "ReturnLogin.tmpl", gin.H{
-		"status":  http.StatusOK,
-		"message": "User Sign out successfully!",
-	})
-
 	return
 	//ctx.JSON(http.StatusOK, gin.H{
 	//	"status":  http.StatusOK,

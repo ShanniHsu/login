@@ -41,8 +41,8 @@ func Router(r *gin.RouterGroup) {
 		user.POST("/token-change", apiController.TokenChange)        //取真Token
 		user.POST("/user-info", apiController.GetUserInfo)           //個人資訊
 		user.POST("/deposit-amount", apiController.DepositAmount)    //存款
-		//user.POST("/withdraw-amount", controll.WithdrawAmount)  //提款
-		//user.POST("/logout", controll.Logout)                   //登出
+		user.POST("/withdraw-amount", apiController.WithdrawAmount)  //提款
+		user.POST("/logout", apiController.Logout)                   //登出
 
 		//純Postman使用
 		user.POST("/build-tmp-token", controll.BuildTmpToken)    //建立臨時Token
