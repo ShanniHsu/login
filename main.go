@@ -9,7 +9,8 @@ import (
 func main() {
 
 	r := gin.Default()
-	r.LoadHTMLGlob("view/*")
+	// 加載templates文件中所有的板模
+	r.LoadHTMLGlob("view/templates/*")
 	v1 := r.Group("")
 	//Mysql Connect
 	connect.GetDBConn()

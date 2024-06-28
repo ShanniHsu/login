@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登入回應</title>
+    <style>
+        #counter {
+            width: 280px;
+            height: 280px;
+            background: aqua; /*背景色*/
+            margin: 100px auto; /*水平居中*/
+            padding: 20px; /*內部距離*/
+            border-radius: 4px; /*邊框圓角*/
+        }
+
+        .marginLeft {
+            margin-left: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="counter">
+    <div class="marginLeft">登入回應</div>
+
+    <div>
+        <label>{{.status}}</label> <br>
+        <label>{{.message}}</label> <br>
+        <img src="/view/static/ae10999b19d7432de848fa6d0f76d482.gif" width="150" height="150">
+        <form id="form1" method="post" action="http://127.0.0.1:8080/users-auth/build-temp-token">
+            <input type="submit" value="建立臨時Token"><br>
+        </form>
+
+        <form id="form2" method="post" action="http://127.0.0.1:8080/users-auth/logout">
+            <input type="submit" value="登出"><br>
+        </form>
+    </div>
+</div>
+</body>
+</html>
