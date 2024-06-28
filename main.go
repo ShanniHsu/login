@@ -9,6 +9,8 @@ import (
 func main() {
 
 	r := gin.Default()
+	// 提供靜態文件服務
+	r.Static("/view/static", "./view/static")
 	// 加載templates文件中所有的板模
 	r.LoadHTMLGlob("view/templates/*")
 	v1 := r.Group("")
